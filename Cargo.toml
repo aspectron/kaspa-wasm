@@ -1,0 +1,80 @@
+[package]
+name = "kaspa-wasm"
+description = "KASPA WASM bindings"
+rust-version = "1.80.0"
+version = "0.14.1"
+authors = ["Kaspa developers"]
+license = "ISC"
+edition = "2021"
+repository = "https://github.com/aspectron/kaspa-wasm"
+
+include = [
+    "src/**/*.rs",
+    "src/**/*.s",
+    "src/**/*.r",
+    "proto/**/*.proto",
+    "benches/**/*.rs",
+    "build.rs",
+    "Cargo.toml",
+    "Cargo.lock",
+]
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+cfg-if = "1.0.0"
+js-sys = "0.3.67"
+num = "0.4.1"
+
+wasm-bindgen = { version = "0.2.92", features = ["serde-serialize"] }
+workflow-log = { version = "0.15.0" }
+workflow-core = { version = "0.15.0" }
+workflow-wasm = { version = "0.15.0" }
+
+kaspa-addresses = { git = "https://github.com/aspectron/rusty-kaspa.git", branch = "omega" }
+kaspa-consensus-core = { git = "https://github.com/aspectron/rusty-kaspa.git", branch = "omega" }
+kaspa-consensus-wasm = { git = "https://github.com/aspectron/rusty-kaspa.git", branch = "omega" }
+kaspa-core = { git = "https://github.com/aspectron/rusty-kaspa.git", branch = "omega" }
+kaspa-math = { git = "https://github.com/aspectron/rusty-kaspa.git", branch = "omega" }
+kaspa-pow = { git = "https://github.com/aspectron/rusty-kaspa.git", branch = "omega" }
+kaspa-txscript = { git = "https://github.com/aspectron/rusty-kaspa.git", branch = "omega" }
+kaspa-rpc-core = { git = "https://github.com/aspectron/rusty-kaspa.git", branch = "omega" }
+kaspa-utils = { git = "https://github.com/aspectron/rusty-kaspa.git", branch = "omega" }
+kaspa-wasm-core = { git = "https://github.com/aspectron/rusty-kaspa.git", branch = "omega" }
+kaspa-wallet-keys = { git = "https://github.com/aspectron/rusty-kaspa.git", branch = "omega" }
+kaspa-wrpc-client = { git = "https://github.com/aspectron/rusty-kaspa.git", branch = "omega" }
+kaspa-wrpc-wasm = { git = "https://github.com/aspectron/rusty-kaspa.git", branch = "omega" }
+
+# kaspa-wallet-core = { git = "https://github.com/aspectron/rusty-kaspa.git", branch = "omega" }
+kaspa-wallet-core = { git = "https://github.com/aspectron/kaspa-wallet.git", branch = "master" }
+
+[features] 
+wasm32-sdk = [
+    "kaspa-wallet-core/wasm32-sdk",
+    "kaspa-pow/wasm32-sdk",
+    "kaspa-txscript/wasm32-sdk",
+]
+wasm32-core = [
+    "kaspa-wallet-core/wasm32-core",
+    "kaspa-pow/wasm32-sdk",
+    "kaspa-txscript/wasm32-sdk",
+]
+wasm32-rpc = [
+    "kaspa-consensus-core/wasm32-sdk",
+    "kaspa-consensus-wasm/wasm32-sdk",
+    "kaspa-wrpc-client/wasm32-sdk",
+    "kaspa-wrpc-wasm/wasm32-sdk",
+]
+wasm32-keygen = []
+default = []
+
+[package.metadata.docs.rs]
+targets = ["wasm32-unknown-unknown"]
+
+[package.metadata.emanate.wasm]
+targets = [
+    { target = "nodejs", out-dir = "nodejs/kaspa" },
+    { target = "web", out-dir = "web/kaspa" }
+]
+folder = "setup"

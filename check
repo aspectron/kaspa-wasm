@@ -1,0 +1,13 @@
+#!/bin/bash
+
+cargo fmt --all
+
+cargo clippy --target wasm32-unknown-unknown --tests --benches
+status=$?
+if [ $status -ne 0 ]; then
+    echo
+    echo "--> wasm32 check of $crate failed"
+    echo
+    exit $status
+fi
+
