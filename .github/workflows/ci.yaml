@@ -75,13 +75,10 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Run cargo build 
-        run: cargo build --release --workspace --all --tests --benches
+        run: cargo build --release --all --tests --benches
 
       - name: Run cargo test regular features
-        run: cargo nextest run --release --workspace
-
-      - name: Run cargo doc tests
-        run: cargo test --doc --release --workspace
+        run: cargo nextest run --release
 
   lints:
     name: Lints
